@@ -102,7 +102,7 @@ st.pyplot()
 
 # Gráfico de idade
 st.subheader('Distribuição de Idades')
-sns.histplot(df['Age'].dropna(), kde=True, color=cores[1])  # Usando o azul forte para o histograma
+sns.histplot(df['Age'].dropna(), kde=True, color=cores[0])  # Usando o azul forte para o histograma
 plt.title('Distribuição de Idades')  # Título em português
 plt.xlabel('Idade')  # Rótulo em português
 plt.ylabel('Frequência')  # Rótulo em português
