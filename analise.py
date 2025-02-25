@@ -3,16 +3,13 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Carregar os dados
-@st.cache
+@st.cache # Carregar os dados
 def load_data():
     return pd.read_csv('train.csv')
+df = load_data() # Carregar o arquivo
 
-# Carregar o arquivo
-df = load_data()
-
-# Definir paleta de cores fortes (vermelho e azul)
-cores = ['#FF4500', '#1E90FF']  # Vermelho forte e Azul forte
+# Definindo as cores azul e vermelho para todos os gráficos
+cores = ['#1E90FF', '#FF4500']  # Azul e Vermelho (azul para sobrevivente, vermelho para mortalidade)
 
 # Título do dashboard
 st.title('Dashboard Titanic')
@@ -98,7 +95,7 @@ plt.title('Porcentagem de Sobreviventes por Sexo')
 plt.xlabel('Sexo')
 plt.ylabel('Porcentagem (%)')
 plt.xticks([0, 1], ['Masculino', 'Feminino'], rotation=0)
-plt.legend(title='Sobreviveu', labels=['Não', 'Sim'])
+plt.legend(title='Sobreviveu', labels=['Sim', 'Não'])
 
 # Exibir o gráfico no Streamlit
 st.pyplot()
