@@ -38,17 +38,15 @@ st.write(df.head())
 
 # Gráfico de box plot invertido (vertical) para a variável 'Age' com caixa menor
 st.subheader('Diagrama de Caixa de Idade')
-
 # Criando o boxplot invertido (vertical) e com caixa mais estreita
 plt.figure(figsize=(8, 6))  # Ajuste do tamanho da figura
 sns.boxplot(data=df, y='Age', palette="pastel", width=0.3)  # Usando y='Age' e ajustando a largura
-
 # Títulos e rótulos
 plt.title('Distribuição da Idade (Diagrama de Caixa)')
 plt.ylabel('Idade')
-
 # Exibir o gráfico no Streamlit
 st.pyplot()
+
 
 # Gráfico de distribuição de sobreviventes (Pizza)
 st.subheader('Distribuição de sobreviventes')
@@ -79,8 +77,6 @@ plt.xticks([0, 1, 2], ['Classe 1', 'Classe 2', 'Classe 3'], rotation=0)
 plt.legend(title='Sobreviveu', labels=['Não', 'Sim'])
 # Exibir o gráfico no Streamlit
 st.pyplot()
-
-
 
 
 # Gráfico de porcentagem de sobreviventes por sexo
