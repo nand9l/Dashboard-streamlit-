@@ -3,11 +3,14 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-@st.cache  # Carregar os dados
+@st.cache_data  # Carregar os dados usando o novo cache
 def load_data():
     return pd.read_csv('train.csv')
 
 df = load_data()  # Carregar o arquivo
+
+# O restante do seu código permanece igual...
+
 
 # Definindo as cores azul e vermelho para todos os gráficos
 cores = ['#1E90FF', '#FF4500']  # Azul e Vermelho (azul para sobrevivente, vermelho para mortalidade)
@@ -39,13 +42,13 @@ st.write(df.head())
 # Gráfico de box plot invertido (vertical) para a variável 'Age' com caixa menor
 st.subheader('Diagrama de Caixa de Idade')
 # Criando o boxplot invertido (vertical) e com caixa mais estreita
-plt.figure(figsize=(8, 6))  # Ajuste do tamanho da figura
-sns.boxplot(data=df, y='Age', palette="pastel", width=0.3)  # Usando y='Age' e ajustando a largura
+fig, ax = plt.subplots(figsize=(8, 6))  # Ajuste do tamanho da figura
+sns.boxplot(data=df, y='Age', palette="pastel", width=0.3, ax=ax)  # Usando o parâmetro ax
 # Títulos e rótulos
-plt.title('Distribuição da Idade (Diagrama de Caixa)')
-plt.ylabel('Idade')
+ax.set_title('Distribuição da Idade (Diagrama de Caixa)')
+ax.set_ylabel('Idade')
 # Exibir o gráfico no Streamlit
-st.pyplot()
+st.pyplot(fig)
 
 
 # Gráfico de distribuição de sobreviventes (Pizza)
@@ -53,11 +56,11 @@ st.subheader('Distribuição de sobreviventes')
 # Contagem de sobreviventes e não sobreviventes
 sobreviventes = df['Survived'].value_counts()
 # Criando o gráfico de pizza
-plt.figure(figsize=(6, 6))
+fig, ax = plt.subplots(figsize=(6, 6))
 # Usando as cores fortes (vermelho e azul)
-plt.pie(sobreviventes, labels=['Sobreviveu', 'Não Sobreviveu'], autopct='%1.1f%%', startangle=90, colors=cores)
-plt.title('Distribuição de Sobreviventes')
-st.pyplot()
+ax.pie(sobreviventes, labels=['Sobreviveu', 'Não Sobreviveu'], autopct='%1.1f%%', startangle=90, colors=cores)
+ax.set_title('Distribuição de Sobreviventes')
+st.pyplot(fig)
 
 
 # Gráfico de porcentagem de sobreviventes por classe de passageiro (Pclass)
@@ -68,15 +71,17 @@ sobreviventes_por_classe = sobreviventes_por_classe.div(sobreviventes_por_classe
 # Definindo as cores corretamente: vermelho para 'Não' e azul para 'Sim'
 cores = ['#FF4500', '#1E90FF']  # Vermelho para "Não" e Azul para "Sim"
 # Criando o gráfico de barras empilhadas
-sobreviventes_por_classe.plot(kind='bar', stacked=True, color=cores, figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(8, 6))
+sobreviventes_por_classe.plot(kind='bar', stacked=True, color=cores, ax=ax)
 # Títulos e rótulos
-plt.title('Porcentagem de Sobreviventes por Classe de Passageiro')
-plt.xlabel('Classe de Passageiro')
-plt.ylabel('Porcentagem (%)')
-plt.xticks([0, 1, 2], ['Classe 1', 'Classe 2', 'Classe 3'], rotation=0)
-plt.legend(title='Sobreviveu', labels=['Não', 'Sim'])
+ax.set_title('Porcentagem de Sobreviventes por Classe de Passageiro')
+ax.set_xlabel('Classe de Passageiro')
+ax.set_ylabel('Porcentagem (%)')
+ax.set_xticks([0, 1, 2])
+ax.set_xticklabels(['Classe 1', 'Classe 2', 'Classe 3'], rotation=0)
+ax.legend(title='Sobreviveu', labels=['Não', 'Sim'])
 # Exibir o gráfico no Streamlit
-st.pyplot()
+st.pyplot(fig)
 
 
 # Gráfico de porcentagem de sobreviventes por sexo
@@ -87,22 +92,25 @@ sobreviventes_por_sexo = sobreviventes_por_sexo.div(sobreviventes_por_sexo.sum(a
 # Definindo as cores corretamente: vermelho para 'Não' e azul para 'Sim'
 cores = ['#1E90FF', '#FF4500']  # Vermelho para "Não" e Azul para "Sim"
 # Criando o gráfico de barras empilhadas
-sobreviventes_por_sexo.plot(kind='bar', stacked=True, color=cores, figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(8, 6))
+sobreviventes_por_sexo.plot(kind='bar', stacked=True, color=cores, ax=ax)
 # Títulos e rótulos
-plt.title('Porcentagem de Sobreviventes por Sexo')
-plt.xlabel('Sexo')
-plt.ylabel('Porcentagem (%)')
-plt.xticks([0, 1], ['Masculino', 'Feminino'], rotation=0)
-plt.legend(title='Sobreviveu', labels=['Sim', 'Não'])
+ax.set_title('Porcentagem de Sobreviventes por Sexo')
+ax.set_xlabel('Sexo')
+ax.set_ylabel('Porcentagem (%)')
+ax.set_xticks([0, 1])
+ax.set_xticklabels(['Masculino', 'Feminino'], rotation=0)
+ax.legend(title='Sobreviveu', labels=['Sim', 'Não'])
 # Exibir o gráfico no Streamlit
-st.pyplot()
+st.pyplot(fig)
 
 
 # Gráfico de idade
 st.subheader('Distribuição de Idades')
-sns.histplot(df['Age'].dropna(), kde=True, color=cores[0])  # Usando o azul forte para o histograma
-plt.title('Distribuição de Idades')  # Título em português
-plt.xlabel('Idade')  # Rótulo em português
-plt.ylabel('Frequência')  # Rótulo em português
-st.pyplot()
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.histplot(df['Age'].dropna(), kde=True, color=cores[0], ax=ax)  # Usando o azul forte para o histograma
+ax.set_title('Distribuição de Idades')  # Título em português
+ax.set_xlabel('Idade')  # Rótulo em português
+ax.set_ylabel('Frequência')  # Rótulo em português
+st.pyplot(fig)
 
